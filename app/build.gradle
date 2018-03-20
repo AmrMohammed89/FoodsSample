@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'realm-android'
+
+
+androidExtensions {
+    experimental = true
+}
+realm {
+    syncEnabled = true;
+}
+
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.amr.dkh_task"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildTypes.each {
+        it.buildConfigField "String", "BASE_URL", "\"https://api.myjson.com/\""
+    }
+}
+
+dependencies {
+    implementation dep.kotlin_version
+
+    implementation dep.app_compat_v7
+    implementation dep.design
+    implementation dep.recyclerview
+    implementation dep.cardview
+    implementation dep.constraint_layout
+
+
+    implementation dep.dagger
+    kapt dep.dagger_compiler
+
+    implementation dep.retrofit
+    implementation dep.retrofit_gson
+    implementation dep.retrofit_rxjava
+
+    implementation dep.okhttp
+    implementation dep.okhttp_interceptor
+
+
+    implementation dep.rx_android
+    implementation dep.rx_java
+
+    implementation(dep.glide) {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor dep.glide_compiler
+
+    testImplementation dep.junit
+    testImplementation dep.mockito_core
+    testImplementation dep.hamcrest_all
+    testImplementation (dep.mockito_kotlin) {
+        exclude module: "kotlin-stdlib"
+        exclude module: "kotlin-reflect"
+    }
+}
